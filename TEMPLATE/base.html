@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Huffman File Compressor{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>HUFFMAN FILE COMPRESSOR</h1>
+    <p class="subtitle">A Greedy Algorithm Based File Compression System</p>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a> |
+      <a href="{{ url_for('compress') }}">Compress</a> |
+      <a href="{{ url_for('decompress') }}">Decompress</a> |
+      <a href="{{ url_for('performance') }}">Performance</a> |
+      <a href="{{ url_for('about') }}">About</a>
+    </nav>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">
+          {% for m in messages %}<p>{{ m }}</p>{% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>DAA Mini Project &mdash; File Compression Using Huffman Coding</p>
+  </footer>
+</body>
+</html>

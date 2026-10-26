@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Decompress - Huffman File Compressor{% endblock %}
+{% block content %}
+  <section class="card">
+    <h2>Decompression</h2>
+    <form method="post" enctype="multipart/form-data">
+      <label for="file">Select Compressed File (.huff):</label>
+      <input type="file" id="file" name="file" required>
+      <button type="submit">DECOMPRESS FILE</button>
+    </form>
+
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if result %}
+      <table class="stats">
+        <tr><th>Compressed File</th><td>{{ result.filename }}</td></tr>
+        <tr><th>Decompressed Size</th><td>{{ result.decompressed_size }}</td></tr>
+        <tr><th>Decompression Time</th><td>{{ result.total_time_ms }}</td></tr>
+        {% if result.verification %}
+        <tr>
+          <th>Verification</th>
+          <td class="{{ 'success' if result.verification == 'SUCCESS' else 'failure' }}">
+            {{ result.verification }}
+          </td>
+        </tr>
+        {% endif %}
+      </table>
+      <p>
+        <a href="{{ url_for('download_decompressed', filename=result.decompressed_filename) }}">
+          Download decompressed file
+        </a>
+      </p>
+      {% if not result.verification %}
+        <p class="note">
+          Note: verification against the original is only shown automatically
+          when the original file (before compression) is still available on
+          the server under the same name. You can still open the downloaded
+          file yourself and compare it to the original.
+        </p>
+      {% endif %}
+    {% endif %}
+  </section>
+{% endblock %}

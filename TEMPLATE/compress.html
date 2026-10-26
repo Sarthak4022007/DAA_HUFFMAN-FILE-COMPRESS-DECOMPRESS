@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Compress - Huffman File Compressor{% endblock %}
+{% block content %}
+  <section class="card">
+    <h2>File Compression</h2>
+    <form method="post" enctype="multipart/form-data">
+      <label for="file">Select File:</label>
+      <input type="file" id="file" name="file" required>
+      <button type="submit">COMPRESS FILE</button>
+    </form>
+
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if result %}
+      <table class="stats">
+        <tr><th>Original File</th><td>{{ result.filename }}</td></tr>
+        <tr><th>Original Size</th><td>{{ result.original_size }}</td></tr>
+        <tr><th>Unique Symbols</th><td>{{ result.unique_symbols }}</td></tr>
+        <tr><th>Compressed Size</th><td>{{ result.compressed_size }}</td></tr>
+        <tr><th>Compression Ratio</th><td>{{ result.compression_ratio }}</td></tr>
+        <tr><th>Space Saved</th><td>{{ result.space_saving }}</td></tr>
+        <tr><th>Compression Time</th><td>{{ result.total_time_ms }}</td></tr>
+      </table>
+      <p>
+        <a href="{{ url_for('download_compressed', filename=result.compressed_filename) }}">
+          Download compressed file (.huff)
+        </a>
+      </p>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <h3>Formulas used</h3>
+    <pre>
+Compression Ratio = Compressed Size / Original Size
+Space Saving (%)  = ((Original Size - Compressed Size) / Original Size) x 100
+    </pre>
+  </section>
+{% endblock %}

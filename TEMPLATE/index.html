@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Home - Huffman File Compressor{% endblock %}
+{% block content %}
+  <section class="card">
+    <h2>About this project</h2>
+    <p>
+      This is a 5th Semester Design and Analysis of Algorithms (DAA)
+      mini project. It implements <strong>Huffman Coding</strong>, a
+      classic <strong>greedy algorithm</strong>, to perform lossless
+      file compression and decompression.
+    </p>
+    <p>The project also compares Huffman Coding against a simple
+      <strong>Fixed-Length Encoding baseline</strong> to demonstrate
+      why frequency-based variable-length codes are useful.</p>
+  </section>
+
+  <section class="card">
+    <h2>What you can do here</h2>
+    <ol>
+      <li><a href="{{ url_for('compress') }}">Compress</a> a text file using Huffman coding.</li>
+      <li><a href="{{ url_for('decompress') }}">Decompress</a> a compressed file and verify it matches the original.</li>
+      <li><a href="{{ url_for('performance') }}">Run the performance experiment</a> to measure compression ratio, execution time, and compare with the fixed-length baseline across small/medium/large datasets.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>How Huffman Coding works</h2>
+    <pre class="flow">
+Frequency Table
+      ↓
+   Min Heap
+      ↓
+ Huffman Tree
+      ↓
+    Codes
+      ↓
+ Encoded Data
+    </pre>
+    <p>At every step, the algorithm greedily combines the two
+      least frequent nodes. This local, greedy choice produces a
+      tree that gives shorter codes to frequent symbols and longer
+      codes to rare symbols.</p>
+  </section>
+{% endblock %}

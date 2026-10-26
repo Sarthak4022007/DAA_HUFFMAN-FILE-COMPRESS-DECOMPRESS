@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Performance - Huffman File Compressor{% endblock %}
+{% block content %}
+  <section class="card">
+    <h2>Performance Analysis</h2>
+    <p>This experiment runs Huffman compression and the fixed-length
+      baseline on the datasets in <code>test_data/</code> and records
+      the actual measured results. No numbers here are hard-coded.</p>
+    <form method="post">
+      <button type="submit">RUN EXPERIMENT</button>
+    </form>
+    {% if ran_now %}<p class="success">Experiment finished. Results updated below.</p>{% endif %}
+  </section>
+
+  {% if rows %}
+  <section class="card">
+    <h3>Results Table</h3>
+    <table class="stats">
+      <tr>
+        <th>Dataset</th><th>Original</th><th>Unique Symbols</th>
+        <th>Huffman Size</th><th>Ratio</th><th>Space Saved</th>
+        <th>Time (s)</th><th>Fixed-Length Size</th><th>Verification</th>
+      </tr>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r.dataset }}</td>
+        <td>{{ r.original_size_bytes }}</td>
+        <td>{{ r.unique_symbols }}</td>
+        <td>{{ r.huffman_compressed_bytes }}</td>
+        <td>{{ r.huffman_compression_ratio }}</td>
+        <td>{{ r.huffman_space_saving_percent }}%</td>
+        <td>{{ r.huffman_total_time_sec }}</td>
+        <td>{{ r.fixed_length_bytes }}</td>
+        <td class="{{ 'success' if r.verification == 'PASS' else 'failure' }}">{{ r.verification }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+
+  <section class="card">
+    <h3>Huffman vs Fixed-Length</h3>
+    <table class="stats">
+      <tr><th>Dataset</th><th>Huffman Size</th><th>Fixed-Length Size</th></tr>
+      {% for r in rows %}
+      <tr><td>{{ r.dataset }}</td><td>{{ r.huffman_compressed_bytes }}</td><td>{{ r.fixed_length_bytes }}</td></tr>
+      {% endfor %}
+    </table>
+  </section>
+
+  {% if charts.compression_time or charts.compression_size or charts.algorithm_comparison %}
+  <section class="card">
+    <h3>Charts</h3>
+    {% if charts.compression_time %}
+      <p>Input Size vs Compression Time</p>
+      <img class="chart" src="{{ url_for('results_file', filename='compression_time.png') }}" alt="Input size vs compression time chart">
+    {% endif %}
+    {% if charts.compression_size %}
+      <p>Original Size vs Compressed Size</p>
+      <img class="chart" src="{{ url_for('results_file', filename='compression_size.png') }}" alt="Original vs compressed size chart">
+    {% endif %}
+    {% if charts.algorithm_comparison %}
+      <p>Huffman vs Fixed-Length Encoded Size</p>
+      <img class="chart" src="{{ url_for('results_file', filename='algorithm_comparison.png') }}" alt="Huffman vs fixed-length comparison chart">
+    {% endif %}
+  </section>
+  {% endif %}
+
+  <p><a href="{{ url_for('results_file', filename='performance_results.csv') }}">Download raw results (CSV)</a></p>
+  {% else %}
+  <section class="card">
+    <p>No results yet. Click "RUN EXPERIMENT" above.</p>
+  </section>
+  {% endif %}
+{% endblock %}
