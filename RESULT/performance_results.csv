@@ -1,0 +1,6 @@
+dataset,original_size_bytes,unique_symbols,huffman_compressed_bytes,huffman_compression_ratio,huffman_space_saving_percent,huffman_total_time_sec,fixed_length_bytes,fixed_length_bits_per_symbol,verification
+small.txt,10240,32,5704,0.557,44.3,0.001937,6400,5,PASS
+medium.txt,102400,32,55534,0.5423,45.77,0.015331,64000,5,PASS
+large.txt,1048576,32,567127,0.5409,45.91,0.154388,655360,5,PASS
+repetitive.txt,20000,3,4024,0.2012,79.88,0.00202,5000,2,PASS
+normal_text.txt,11120,32,6182,0.5559,44.41,0.001746,6950,5,PASS
